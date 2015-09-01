@@ -7,6 +7,7 @@ import org.springframework.security.cas.authentication.StatelessTicketCache;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 /**
  * An implementation of {@link org.springframework.security.cas.authentication.StatelessTicketCache} that uses Redis for
@@ -21,6 +22,7 @@ public class RedisStatelessTicketCache implements StatelessTicketCache {
 
 	private final JedisPool jedisPool;
 	private CasAuthenticationTokenSerializer casAuthenticationTokenSerializer = new DefaultCasAuthenticationTokenSerializer();
+	private Integer expirationSeconds = -1;
 
 	/**
 	 * Creates a new instance
@@ -41,9 +43,7 @@ public class RedisStatelessTicketCache implements StatelessTicketCache {
 		try {
 			jedis = jedisPool.getResource();
 			String serialized = jedis.get(serviceTicket);
-			if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Cache hit: %b; service ticket: %s", serialized != null, serviceTicket));
-			}
+			logger.debug("Cache hit: {}; service ticket: {}", serialized != null, serviceTicket);
 			return serialized == null ? null : casAuthenticationTokenSerializer.deserialize(serialized);
 		} catch (CasAuthenticationTokenSerializerException e) {
 			throw new RuntimeException("Exception encountered while serializing CasAuthenticationToken", e);
@@ -63,10 +63,14 @@ public class RedisStatelessTicketCache implements StatelessTicketCache {
 		try {
 			jedis = jedisPool.getResource();
 			String serialized = casAuthenticationTokenSerializer.serialize(token);
-			if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Cache put: %s", token.getCredentials().toString()));
+			String key = token.getCredentials().toString();
+			logger.debug("Cache put: {}", key);
+			Transaction transaction = jedis.multi();
+			transaction.set(key, serialized);
+			if (expirationSeconds != -1) {
+				transaction.expire(key, expirationSeconds);
 			}
-			jedis.set(token.getCredentials().toString(), serialized);
+			transaction.exec();
 		} catch (CasAuthenticationTokenSerializerException e) {
 			throw new RuntimeException("Exception encountered while deserializing CasAuthenticationToken", e);
 		} finally {
@@ -89,9 +93,7 @@ public class RedisStatelessTicketCache implements StatelessTicketCache {
 		Jedis jedis = null;
 		try {
 			jedis = jedisPool.getResource();
-			if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Cache remove: %s", serviceTicket));
-			}
+			logger.debug("Cache remove: {}", serviceTicket);
 			jedis.del(serviceTicket);
 		} finally {
 			if (jedis != null) {
@@ -129,5 +131,24 @@ public class RedisStatelessTicketCache implements StatelessTicketCache {
 	 */
 	public void setCasAuthenticationTokenSerializer(CasAuthenticationTokenSerializer casAuthenticationTokenSerializer) {
 		this.casAuthenticationTokenSerializer = casAuthenticationTokenSerializer;
+	}
+
+	/**
+	 * Gets the number of seconds that tickets are cached for before being expired
+	 * 
+	 * @return The number of seconds that tickets are cached for before being expired
+	 */
+	public Integer getExpirationSeconds() {
+		return expirationSeconds;
+	}
+
+	/**
+	 * Sets the number of seconds that tickets are cached for before being expired
+	 * 
+	 * @param expirationSeconds
+	 *            The number of seconds that tickets are cached for before being expired
+	 */
+	public void setExpirationSeconds(Integer expirationSeconds) {
+		this.expirationSeconds = expirationSeconds;
 	}
 }

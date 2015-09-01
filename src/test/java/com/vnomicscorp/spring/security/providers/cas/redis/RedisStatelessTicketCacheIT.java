@@ -54,6 +54,7 @@ public class RedisStatelessTicketCacheIT {
 	public void setup() {
 		JedisPool jedisPool = new JedisPool(host, port);
 		cache = new RedisStatelessTicketCache(jedisPool);
+		cache.setExpirationSeconds(60);
 	}
 
 	@Test
@@ -72,6 +73,22 @@ public class RedisStatelessTicketCacheIT {
 		// Delete
 		cache.removeTicketFromCache(token);
 		assertNull(cache.getByTicketId(CREDENTIALS));
+	}
+
+	@Test
+	public void expiration() throws InterruptedException {
+		cache.setExpirationSeconds(2);
+		CasAuthenticationToken token = makeToken();
+		// Cleanup delete
+		cache.removeTicketFromCache(CREDENTIALS);
+		// Create
+		cache.putTicketInCache(token);
+		// Read
+		assertTokenEquals(token, cache.getByTicketId(CREDENTIALS));
+		// Wait for ticket to expire
+		Thread.sleep(6000l);
+		// Read again
+		assertEquals(null, cache.getByTicketId(CREDENTIALS));
 	}
 
 	private CasAuthenticationToken makeToken() {

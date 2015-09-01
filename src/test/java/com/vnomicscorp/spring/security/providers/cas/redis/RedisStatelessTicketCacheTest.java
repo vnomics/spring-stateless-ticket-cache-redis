@@ -3,6 +3,8 @@ package com.vnomicscorp.spring.security.providers.cas.redis;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.springframework.security.cas.authentication.CasAuthenticationToken;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Transaction;
 
 public class RedisStatelessTicketCacheTest extends EasyMockSupport {
 	private RedisStatelessTicketCache cache;
@@ -62,13 +65,38 @@ public class RedisStatelessTicketCacheTest extends EasyMockSupport {
 	}
 
 	@Test
-	public void putTicketInCache() throws CasAuthenticationTokenSerializerException {
+	public void putTicketInCacheNoExpiration() throws CasAuthenticationTokenSerializerException {
+		cache.setExpirationSeconds(-1);
 		String st = "ST-dddddd";
 		String val = "someval";
 		expect(token.getCredentials()).andReturn(st);
 		expect(jedisPool.getResource()).andReturn(jedis);
 		expect(serializer.serialize(token)).andReturn(val);
-		expect(jedis.set(st, val)).andReturn("status");
+		Transaction transaction = createStrictMock(Transaction.class);
+		expect(jedis.multi()).andReturn(transaction);
+		expect(transaction.set(st, val)).andReturn(null);
+		expect(transaction.exec()).andReturn(new ArrayList<Object>());
+		jedis.close();
+		expectLastCall();
+		replayAll();
+		cache.putTicketInCache(token);
+		verifyAll();
+	}
+
+	@Test
+	public void putTicketInCacheWithExpiration() throws CasAuthenticationTokenSerializerException {
+		Integer expirationSecs = 5;
+		cache.setExpirationSeconds(5);
+		String st = "ST-dddddd";
+		String val = "someval";
+		expect(token.getCredentials()).andReturn(st);
+		expect(jedisPool.getResource()).andReturn(jedis);
+		expect(serializer.serialize(token)).andReturn(val);
+		Transaction transaction = createStrictMock(Transaction.class);
+		expect(jedis.multi()).andReturn(transaction);
+		expect(transaction.set(st, val)).andReturn(null);
+		expect(transaction.expire(st, expirationSecs)).andReturn(null);
+		expect(transaction.exec()).andReturn(new ArrayList<Object>());
 		jedis.close();
 		expectLastCall();
 		replayAll();
