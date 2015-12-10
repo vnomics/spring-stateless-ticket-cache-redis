@@ -62,4 +62,12 @@ public class DefaultCasAuthenticationTokenSerializer implements CasAuthenticatio
 			throw new CasAuthenticationTokenSerializerException(e);
 		}
 	}
+
+	public Charset getCharset() {
+		return charset;
+	}
+
+	public void setCharset(Charset charset) {
+		this.charset = charset;
+	}
 }
