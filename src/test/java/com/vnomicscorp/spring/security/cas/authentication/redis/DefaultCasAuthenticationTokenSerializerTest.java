@@ -1,4 +1,4 @@
-package com.vnomicscorp.spring.security.providers.cas.redis;
+package com.vnomicscorp.spring.security.cas.authentication.redis;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,9 @@ import org.junit.Test;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import com.vnomicscorp.spring.security.cas.authentication.redis.CasAuthenticationTokenSerializerException;
+import com.vnomicscorp.spring.security.cas.authentication.redis.DefaultCasAuthenticationTokenSerializer;
 
 public class DefaultCasAuthenticationTokenSerializerTest {
 	private static final String USERNAME = "dave";

@@ -1,4 +1,4 @@
-package com.vnomicscorp.spring.security.providers.cas.redis;
+package com.vnomicscorp.spring.security.cas.authentication.redis;
 
 import static org.junit.Assert.*;
 
@@ -18,6 +18,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.vnomicscorp.spring.security.cas.authentication.redis.RedisStatelessTicketCache;
 
 import redis.clients.jedis.JedisPool;
 

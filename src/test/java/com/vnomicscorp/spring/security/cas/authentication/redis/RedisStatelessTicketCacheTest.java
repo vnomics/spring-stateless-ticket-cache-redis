@@ -1,4 +1,4 @@
-package com.vnomicscorp.spring.security.providers.cas.redis;
+package com.vnomicscorp.spring.security.cas.authentication.redis;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -9,6 +9,10 @@ import org.easymock.EasyMockSupport;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
+
+import com.vnomicscorp.spring.security.cas.authentication.redis.CasAuthenticationTokenSerializer;
+import com.vnomicscorp.spring.security.cas.authentication.redis.CasAuthenticationTokenSerializerException;
+import com.vnomicscorp.spring.security.cas.authentication.redis.RedisStatelessTicketCache;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

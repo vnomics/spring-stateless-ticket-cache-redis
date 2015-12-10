@@ -1,4 +1,4 @@
-package com.vnomicscorp.spring.security.providers.cas.redis;
+package com.vnomicscorp.spring.security.cas.authentication.redis;
 
 public class CasAuthenticationTokenSerializerException extends Exception {
 
