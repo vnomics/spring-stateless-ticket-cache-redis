@@ -26,7 +26,7 @@ import org.springframework.security.cas.authentication.CasAuthenticationToken;
  */
 public interface CasAuthenticationTokenSerializer {
 	/**
-	 * Serializes the given authentication token as a {@java.util.String}
+	 * Serializes the given authentication token as a {@link java.util.String}
 	 * 
 	 * @param token
 	 *            The token to serialize
