@@ -44,6 +44,7 @@ public class DefaultCasAuthenticationTokenSerializer implements CasAuthenticatio
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
 			oos.writeObject(token);
+			oos.flush();
 			return new String(Base64.encode(baos.toByteArray()), charset);
 		} catch (IOException e) {
 			throw new CasAuthenticationTokenSerializerException(e);
