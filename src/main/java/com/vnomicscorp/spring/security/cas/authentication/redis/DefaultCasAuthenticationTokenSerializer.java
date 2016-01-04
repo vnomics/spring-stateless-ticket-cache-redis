@@ -26,7 +26,8 @@ import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.crypto.codec.Base64;
 
 /**
- * Default implementation of {@link CasAuthenticationTokenSerializer} that uses Java serialization
+ * Default implementation of {@link CasAuthenticationTokenSerializer} that uses
+ * Java serialization
  * 
  * @author Samuel Nelson
  *
@@ -63,10 +64,25 @@ public class DefaultCasAuthenticationTokenSerializer implements CasAuthenticatio
 		}
 	}
 
+	/**
+	 * Gets the charset that will be used to encode and decode strings to bytes
+	 * and vice versa
+	 * 
+	 * @return The charset that will be used to encode and decode strings to
+	 *         bytes and vice versa
+	 */
 	public Charset getCharset() {
 		return charset;
 	}
 
+	/**
+	 * Sets the charset that will be used to encode and decode strings to bytes
+	 * and vice versa
+	 * 
+	 * @param charset
+	 *            The charset that will be used to encode and decode strings to
+	 *            bytes and vice versa
+	 */
 	public void setCharset(Charset charset) {
 		this.charset = charset;
 	}

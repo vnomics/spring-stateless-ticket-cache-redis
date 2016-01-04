@@ -15,18 +15,38 @@
  */
 package com.vnomicscorp.spring.security.cas.authentication.redis;
 
+/**
+ * Checked exception thrown by CasAuthenticationTokenSerializer
+ * 
+ * @author Sam Nelson
+ *
+ */
 public class CasAuthenticationTokenSerializerException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param message
+	 *            The message to include on the exception
+	 */
 	public CasAuthenticationTokenSerializerException(String message) {
 		super(message);
 	}
 
+	/**
+	 * @param cause
+	 *            The exception that caused this exception to be thrown
+	 */
 	public CasAuthenticationTokenSerializerException(Throwable cause) {
 		super(cause);
 	}
 
+	/**
+	 * @param message
+	 *            The message to include on the exception
+	 * @param cause
+	 *            The exception that caused this exception to be thrown
+	 */
 	public CasAuthenticationTokenSerializerException(String message, Throwable cause) {
 		super(message, cause);
 	}
