@@ -8,6 +8,7 @@
 
 	<name>spring-stateless-ticket-cache-redis</name>
 	<description>A Redis implementation of Spring security's stateless ticket cache for CAS</description>
+	<url>https://github.com/vnomics/spring-stateless-ticket-cache-redis</url>
 
 	<properties>
 		<spring.security.version>3.2.5.RELEASE</spring.security.version>
@@ -143,11 +144,26 @@
 
 	<licenses>
 		<license>
-			<name>Apache License, Version 2.0</name>
+			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+
+	<developers>
+		<developer>
+			<name>Samuel Nelson</name>
+			<email>snelson@vnomicscorp.com</email>
+			<organization>Vnomicscorp</organization>
+			<organizationUrl>https://github.com/s-nel</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:vnomics/spring-stateless-ticket-cache-redis.git</connection>
+		<developerConnection>scm:git:git@github.com:vnomics/spring-stateless-ticket-cache-redis.git</developerConnection>
+		<url>git@github.com:vnomics/spring-stateless-ticket-cache-redis.git</url>
+	</scm>
 
 	<organization>
 		<name>Vnomics Corp.</name>
