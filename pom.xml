@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vnomicscorp</groupId>
 	<artifactId>spring-stateless-ticket-cache-redis</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>spring-stateless-ticket-cache-redis</name>
