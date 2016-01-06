@@ -2,6 +2,16 @@
 
 This project implements `org.springframework.security.cas.authentication.StatelessTicketCache` for storing stateless CAS tickets in a Redis database. This supports stateless authentication scheme in a highly available environment. This project depends on the [Jedis](https://github.com/xetorthio/jedis) Redis library.
 
+## Maven Coordinates
+
+```xml
+<dependency>
+    <groupId>com.vnomicscorp</groupId>
+    <artifactId>spring-stateless-ticket-cache-redis</artifactId>
+    <version>1.0.3</version>
+</dependency>
+```
+
 ## Usage
 
 Usage is simple. Construct a `com.vnomicscorp.spring.security.cas.authentication.redis.RedisStatelessTicketCache` with a Redis connection, optionally set expiration time, and use the instance when configuring your CAS security provider.
