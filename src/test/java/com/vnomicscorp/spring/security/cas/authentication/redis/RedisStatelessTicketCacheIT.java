@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,58 +15,47 @@
  */
 package com.vnomicscorp.spring.security.cas.authentication.redis;
 
-import static org.junit.Assert.*;
-
-import java.util.Arrays;
-
 import org.jasig.cas.client.validation.AssertionImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
+import org.junit.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+import org.testcontainers.containers.Container;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
+
 /**
- * Integration test that verifies we can connect to a redis cluster correctly and our {@link RedisStatelessTicketCache}
- * works properly. This test is configured with the following Spring properties
- * 
- * com.vnomicscorp.spring.security.providers.cas.redis.RedisStatelessTicketCacheIT.host - The host of the Redis server
- * com.vnomicscorp.spring.security.providers.cas.redis.RedisStatelessTicketCacheIT.port - The port of the Redis server
- * 
- * @author Samuel Nelson
+ * Integration test that verifies we can connect to a redis cluster correctly and our
+ * {@link RedisStatelessTicketCache} works properly. This test requires docker to be installed.
  *
  */
-@ContextConfiguration(classes = { RedisStatelessTicketCacheIT.class })
-@RunWith(SpringJUnit4ClassRunner.class)
-@PropertySource("classpath:application.properties")
 public class RedisStatelessTicketCacheIT {
+
+	private static final int REDIS_DEFAULT_PORT = 6379;
+
+	@Rule
+	public GenericContainer redis = new GenericContainer("redis:5")
+			.withExposedPorts(REDIS_DEFAULT_PORT);
 
 	private static final String USERNAME = "dave";
 	private static final String CREDENTIALS = "ST-whatever";
 	private static final String KEY = "key";
 	private static final String ROLE = "role";
 
-	@Value("${com.vnomicscorp.spring.security.providers.cas.redis.RedisStatelessTicketCacheIT.host}")
-	private String host;
-
-	@Value("${com.vnomicscorp.spring.security.providers.cas.redis.RedisStatelessTicketCacheIT.port}")
-	private Integer port;
-
 	private RedisStatelessTicketCache cache;
 
 	@Before
 	public void setup() {
-		JedisPool jedisPool = new JedisPool(host, port);
+		JedisPool jedisPool = new JedisPool(redis.getContainerIpAddress(), redis.getMappedPort(REDIS_DEFAULT_PORT));
 		cache = new RedisStatelessTicketCache(jedisPool);
 		cache.setExpirationSeconds(60);
 	}
