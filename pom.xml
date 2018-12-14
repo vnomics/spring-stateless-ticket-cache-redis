@@ -90,20 +90,11 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19</version>
-				<configuration>
-					<excludedGroups>com.vnomicscorp.spring.security.cas.authentication.redis.IntegrationTest</excludedGroups>
-				</configuration>
+				<version>3.0.0-M1</version>
 			</plugin>
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.19</version>
-				<configuration>
-					<includes>
-						<include>**/*.java</include>
-					</includes>
-					<groups>com.vnomicscorp.spring.security.cas.authentication.redis.IntegrationTest</groups>
-				</configuration>
+				<version>3.0.0-M1</version>
 				<executions>
 					<execution>
 						<goals>

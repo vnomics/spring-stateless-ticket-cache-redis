@@ -46,7 +46,6 @@ import redis.clients.jedis.JedisPool;
  * @author Samuel Nelson
  *
  */
-@Category(IntegrationTest.class)
 @ContextConfiguration(classes = { RedisStatelessTicketCacheIT.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 @PropertySource("classpath:application.properties")
