@@ -9,6 +9,12 @@
 	<description>A Redis implementation of Spring security's stateless ticket cache for CAS</description>
 	<url>https://github.com/vnomics/spring-stateless-ticket-cache-redis</url>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
+
 	<properties>
 		<spring.security.version>3.2.5.RELEASE</spring.security.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

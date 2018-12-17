@@ -38,6 +38,6 @@ You must have gpg key to do a full build.  Create one on linux with:
 	
 If you need to supply a passphrase to the build then use 
 
-	mvn install -Dgpg.passphrase=thephrase
+	mvn install -D"gpg.passphrase=thephrase"
 	
 See maven-gpg-plugin documentation for further details. 
