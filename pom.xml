@@ -306,15 +306,9 @@
 			<name>Samuel Nelson</name>
 			<email>snelson@vnomicscorp.com</email>
 			<organization>Vnomicscorp</organization>
-			<organizationUrl>https://github.com/s-nel</organizationUrl>
+			<organizationUrl>https://github.com/vnomics</organizationUrl>
 		</developer>
 	</developers>
-
-	<scm>
-		<connection>scm:git:git@github.com:vnomics/spring-stateless-ticket-cache-redis.git</connection>
-		<developerConnection>scm:git:git@github.com:vnomics/spring-stateless-ticket-cache-redis.git</developerConnection>
-		<url>git@github.com:vnomics/spring-stateless-ticket-cache-redis.git</url>
-	</scm>
 
 	<organization>
 		<name>Vnomics Corp.</name>
