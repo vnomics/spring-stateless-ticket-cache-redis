@@ -25,3 +25,19 @@ cache.setExpirationSeconds(expirationSeconds);
 // Configure the CAS provider
 casAuthenticationProvider.setStatelessTicketCache(cache);
 ```
+
+
+## Building
+
+	mvn install
+
+### Key setup
+You must have gpg key to do a full build.  Create one on linux with:
+
+	gpg --gen-key
+	
+If you need to supply a passphrase to the build then use 
+
+	mvn install -D"gpg.passphrase=thephrase"
+	
+See maven-gpg-plugin documentation for further details. 
